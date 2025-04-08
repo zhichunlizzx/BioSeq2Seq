@@ -10,7 +10,7 @@ This package provides an implementation for training, testing, and evaluation of
 ## 🚀 About
 **BioSeq2Seq** is a smart framework that allows users to provide, but not limited to, RO-seq and DNA sequences to predict a variety of transcriptional regulatory signals. Currently, BioSeq2Seq integrates four downstream analysis models for transcriptional regulation: histone modification prediction, functional element annotation, gene expression prediction, and transcriptional regulatory factor binding site (TFBS) prediction.
 
-# Setup
+## 🔧 Setup
 Requirements:
 *   einops(0.4.1)
 *   h5py(2.8.0)
@@ -27,7 +27,7 @@ Create the environment with the following command:
 conda env create -f environment.yml -n my_env
 ```
 
-# How to train and predict
+## 📝How to train and predict
 The training of the model requires the following types of data:
 *   RO-seq double-stranded data (optional — at least one of RO-seq or reference genome data must be provided)
 *   Reference genome data (optional — at least one of reference genome or RO-seq data must be provided)
@@ -36,12 +36,10 @@ The training of the model requires the following types of data:
 
 When using a trained model for prediction, it is not necessary to provide the target ground truth. The detailed process of training and outputting prediction results can be found in `train.ipynb`.
 
-# Evaluation
+## 📊 Evaluation
 This package provides evaluation methods for four subtasks of BioSeq2Seq, see detail in `evaluation.ipynb`.
 
-# Targets of downstream tasks
-Histone Modification ChIP-seq:
-
+## 🧬 Targets of downstream tasks
 |index|Downstream task|Item|Type|
 |:-|:-|:-|:-|
 |1|Histone modification|H3K4me1, H3K122ac, H3K4me2, H3K4me3, H3K27ac, H3K27me3, H3K36me3, H3K9ac, H3K9me3, H4K20me1|ChIP-seq|
