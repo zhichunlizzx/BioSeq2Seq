@@ -27,6 +27,8 @@ Create the environment with the following command:
 conda env create -f environment.yml -n my_env
 ```
 
+Pre-trained model weights for different downstream tasks of BioSeq2Seq are available here: https://dreg.dnasequence.org/themes/dreg/assets/file/BioSeq2Seq_model.zip.
+
 ## 📝How to train and predict
 The training of the model requires the following types of data:
 *   RO-seq double-stranded data (optional — at least one of RO-seq or reference genome data must be provided)
@@ -34,10 +36,10 @@ The training of the model requires the following types of data:
 *   Target ground truth (such as histone modification ChIP-seq, RNA-seq, or other omics data)
 *   Genome blacklist (optional)
 
-When using a trained model for prediction, it is not necessary to provide the target ground truth. The detailed process of training and outputting prediction results can be found in `train.ipynb`.
+When using a trained model for prediction, it is not necessary to provide the target ground truth. The detailed process of training and outputting prediction results can be found in `src/train.ipynb`.
 
 ## 📊 Evaluation
-This package provides evaluation methods for four subtasks of BioSeq2Seq, see detail in `evaluation.ipynb`.
+This package provides evaluation methods for four subtasks of BioSeq2Seq, see detail in `src/evaluation.ipynb`.
 
 ## 🧬 Targets of downstream tasks
 |index|Downstream task|Item|Type|
