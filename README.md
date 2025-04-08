@@ -1,13 +1,13 @@
 [![language](https://img.shields.io/badge/language-Python-3776AB)](https://www.python.org/)
 [![OS](https://img.shields.io/badge/OS-CentOS%20%7C%20Ubuntu-2C3E50)](https://www.centos.org/)
 [![arch](https://img.shields.io/badge/arch-x86__64-blue)](https://en.wikipedia.org/wiki/X86-64)
-[![GitHub release](https://img.shields.io/github/v/release/zhichunlizzx/BioSeq2Seq)](https://github.com/zhichunlizzx/BioSeq2Seq/releases)
-[![GitHub release date](https://img.shields.io/github/release-date/zhichunlizzx/BioSeq2Seq)](https://github.com/zhichunlizzx/BioSeq2Seq/releases)
 [![GitHub last commit](https://img.shields.io/github/last-commit/zhichunlizzx/BioSeq2Seq)](https://github.com/zhichunlizzx/BioSeq2Seq/commits)
-
 
 # BioSeq2Seq
 This package provides an implementation for training, testing, and evaluation of the BioSeq2Seq framework.
+
+
+![Hi](https://github.com/zhichunlizzx/BioSeq2Seq/blob/master/BioSeq2Seq.gateway.png?v=4&s=200 "dREG gateway")
 
 # Setup
 Requirements:
