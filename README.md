@@ -42,7 +42,7 @@ This package provides evaluation methods for four subtasks of BioSeq2Seq, see de
 # Targets of downstream tasks
 Histone Modification ChIP-seq:
 
-|index|Downstream task|Item||Type
+|index|Downstream task|Item|Type|
 |:-|:-|:-|:-|
 |1|Histone modification|H3K4me1, H3K122ac, H3K4me2, H3K4me3, H3K27ac, H3K27me3, H3K36me3, H3K9ac, H3K9me3, H4K20me1|ChIP-seq|
 |2|Functional element|Promoter, Insulator, Poly(A), Gene Body|annotation|
