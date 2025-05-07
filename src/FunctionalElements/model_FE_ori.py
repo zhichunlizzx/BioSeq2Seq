@@ -185,7 +185,7 @@ class Sequential(tf.keras.Model):
     return outputs
 
 
-class Dhit2(tf.keras.Model):
+class BioSeq2Seq(tf.keras.Model):
   """Main model."""
 
   def __init__(self,
@@ -195,9 +195,9 @@ class Dhit2(tf.keras.Model):
                output_channels = 1,
                target_length=896,
                pooling_type: str = 'max',
-               name: str = 'dhit2'):
+               name: str = 'BioSeq2Seq'):
 
-    super(Dhit2, self).__init__(name=name)
+    super(BioSeq2Seq, self).__init__(name=name)
 
     # pylint: disable=g-complex-comprehension,g-long-lambda,cell-var-from-loop
     dropout_rate = 0.4

@@ -1,4 +1,4 @@
-The weight file uses the A model, and you need to change the input format in the model to make it work.
+The weight file uses the ori model, and you need to change the input format in the model to make it work.
 
 like:
 

@@ -167,7 +167,7 @@ class Sequential(tf.keras.Model):
     return outputs
 
 
-class Enformer(tf.keras.Model):
+class BioSeq2Seq(tf.keras.Model):
   """Main model."""
 
   def __init__(self,
@@ -175,9 +175,9 @@ class Enformer(tf.keras.Model):
                num_transformer_layers: int = 11,
                num_heads: int = 8,
                pooling_type: str = 'attention',
-               name: str = 'enformer'):
+               name: str = 'BioSeq2Seq'):
     
-    super(Enformer, self).__init__(name=name)
+    super(BioSeq2Seq, self).__init__(name=name)
     # pylint: disable=g-complex-comprehension,g-long-lambda,cell-var-from-loop
     heads_channels = {'human': 10}
     dropout_rate = 0.4
