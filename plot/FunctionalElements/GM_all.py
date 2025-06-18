@@ -13,7 +13,7 @@ linewidth=2
 fontsize = 16
 
 Promoter = [0.88, 0.82, 0.94, 0.88]
-Insulator = [0.77, 0.89, 0.72, 0.79]
+Insulator = [0.64, 0.61, 0.65, 0.63]
 PolyA = [0.68, 0.77, 0.65, 0.71]
 GeneBody = [0.92, 0.92, 0.93, 0.92]
 
@@ -24,7 +24,7 @@ bars2 = plt.bar(index-0.5*bar_width, Insulator, color=colors[1], width=bar_width
 bars3 = plt.bar(index+0.5*bar_width, PolyA, color=colors[2], width=bar_width, edgecolor='black', linewidth=linewidth)
 bars4 = plt.bar(index+1.5*bar_width, GeneBody, color=colors[3], width=bar_width, edgecolor='black', linewidth=linewidth)
 
-plt.ylim(0.5, 1)
+plt.ylim(0.3, 1)
 # 移除上方和右方的边框
 ax = plt.gca()
 ax.spines['top'].set_visible(False)

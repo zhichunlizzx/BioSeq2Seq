@@ -59,7 +59,7 @@ mean_dHIT = 0
 data_path = r'BioSeq2Seq\plot\HistoneModification\plot_data\evaluation.xlsx'
 chart_name = 'TRE'
 
-row_ids = [162, 178, 193, 208, 223, 237, 251, 265, 279]
+row_ids = [5, 21, 36, 51, 66, 80, 94, 108, 122]
 fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(width_inch, height_inch))
 # promoter
 col_id = 2
