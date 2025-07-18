@@ -31,7 +31,7 @@ Pre-trained model weights for different downstream tasks of BioSeq2Seq are avail
 
 ## 📝How to train and predict
 The training of the model requires the following types of data:
-*   Double-stranded RO-seq data ("xx_._plus.bw, xx_minus.bw", optional — at least one of RO-seq or reference genome data must be provided)
+*   Double-stranded RO-seq data ("xx_plus.bw, xx_minus.bw", optional — at least one of RO-seq or reference genome data must be provided)
 *   Reference genome data ("hg19.fa", optional — at least one of reference genome or RO-seq data must be provided)
 *   Target ground truth (such as histone modification ChIP-seq, RNA-seq, or other omics data)
 *   Genome blacklist (optional)
