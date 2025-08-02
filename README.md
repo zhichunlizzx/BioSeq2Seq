@@ -19,7 +19,6 @@ This package provides an implementation for training, testing, and evaluation of
 *   pysam(0.19.0)
 *   numpy(1.15.0)
 *   tensorflow(2.4.0)
-*   Ubuntu or Centos
 
 See `environment.yml`.
 
@@ -37,7 +36,8 @@ git clone https://github.com/zhichunlizzx/BioSeq2Seq.git
 cd BioSeq2Seq
 ```
 
-(4) Install BioSeq2Seq Environment
+(4) Install BioSeq2Seq environment
+
 Create the environment with the following command:
 
 ```shell
@@ -47,7 +47,7 @@ conda env create -f environment.yml -n BioSeq2Seq
 conda activate BioSeq2Seq
 ```
 
-(5) Download the Pretrained Model Weights
+(5) Download the pretrained model weights
 
 Download the pretrained model file from the following link:
 
