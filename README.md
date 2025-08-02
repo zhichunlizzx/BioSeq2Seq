@@ -25,7 +25,7 @@ See `environment.yml`.
 
 (2) Supported OS
 
-Only Linux is supported at this time.
+Linux is supported at this time.
 
 (3) Download BioSeq2Seq
 
@@ -66,7 +66,10 @@ cd ../..
 
 ## 📝 Data preparation
 
-BioSeq2Seq requires double-stranded bigWig files and corresponding DNA sequences as input. The bigWig files must meet the following three criteria:
+BioSeq2Seq requires double-stranded bigWig files and corresponding DNA sequences as input. 
+
+(1) RO-seq bigWig file
+The bigWig files must meet the following three criteria:
 
 1. Reads must be mapped in point mode, using either the 5′ end (e.g., GRO-seq) or the 3′ end (e.g., PRO-seq). Do not represent reads as continuous regions starting from these ends. This mapping style differs from tools such as Tfit.
 
@@ -75,6 +78,30 @@ BioSeq2Seq requires double-stranded bigWig files and corresponding DNA sequences
 3. No normalization
 
 As for how to generate bigWig files from fastq data, please refer to https://github.com/Danko-Lab/proseq2.0/.
+
+(2) DNA sequence
+
+Download the reference genomes (hg19 and mm10) from the following links:
+
+*   hg19:
+http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz
+
+*   mm10:
+http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.fa.gz
+
+Then, navigate to your designated reference directory, download, and decompress the fasta files:
+
+```bash
+cd ./test_samples/ref/
+
+# Download hg19 reference genome
+wget http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz
+# Decompress hg19
+gunzip hg19.fa.gz
+
+cd ../..
+```
+
 
 
 ## 🖥️ Prediction
@@ -98,7 +125,7 @@ Parameter explanations:
 For example, to run BioSeq2Seq using RO-seq data of hg19, use:
 
 ```shell
-bash --plus roseq.plus.bw --minus roseq.minus.bw  --ref hg19.fa  -o ./outdir --type HistoneModification --op histone
+bash --plus BioSeq2Seq/test_samples/roseq/plus.bw --minus BioSeq2Seq/test_samples/roseq/minus.bw  --ref BioSeq2Seq/test_samples/ref/hg19.fa  -o ./outdir --type HistoneModification --op histone
 ```
 
 That command takes ~1-2 hours to execute on Ubuntu on a NVIDIA RTX 3090.
