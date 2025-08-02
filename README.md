@@ -62,7 +62,7 @@ cd ../..
 
 BioSeq2Seq is an end-to-end transcriptional regulation analysis model that requires **RO-seq** data (including PRO-seq, GRO-seq, and ChRO-seq) from both the forward and reverse strands, along with the corresponding **reference genome**, to accurately predict various transcriptional regulatory activities. To use BioSeq2Seq, TensorFlow 2.4.0 or a later version must be properly installed. During operation, BioSeq2Seq will automatically utilize GPU acceleration to enhance computational performance.
 
-使用BioSeq2Seq需要输入：
+Usage example:
 
 ```shell
 bash --plus plus_strand.bw --minus minus_strand.bw  --ref ref.fa  -o outdir --type task_type --op out_prefix
@@ -76,23 +76,20 @@ Parameter explanations:
     --op: output filename prefix (optional)
 ```
 
+For example, to run BioSeq2Seq using RO-seq data of hg19, use:
 
+```shell
+bash --plus roseq.plus.bw --minus roseq.minus.bw  --ref hg19.fa  -o ./outdir --type HistoneModification --op histone
+```
 
+That command takes ~1-2 hours to execute on Ubuntu on a NVIDIA RTX 3090.
 
-
-
-
-
-
+BioSeq2Seq outputs predicted signals in bigWig format. For functional element prediction tasks, you can use `fe_classfication_evaluation()` from `BioSeq2Seq/src/FunctionalElements/evaluation/classification_performance/classification_eva.py` to perform peak calling and evaluate the prediction performance.
 
 Pre-trained model weights for different downstream tasks of BioSeq2Seq are available here: https://dreg.dnasequence.org/themes/dreg/assets/file/BioSeq2Seq_model.zip.
 
 
-
-
-
-
-## 📝How to train and predict
+## 📝Train and Predict with a New Model
 
 The training of the model requires the following types of data:
 *   Double-stranded RO-seq data ("xx_plus.bw, xx_minus.bw", optional — at least one of RO-seq or reference genome data must be provided)
