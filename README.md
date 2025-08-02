@@ -21,10 +21,37 @@ Requirements:
 
 See `environment.yml`.
 
+(1) Download BioSeq2Seq
+
+Clone the BioSeq2Seq repository from GitHub
+
+```shell
+git clone https://github.com/zhichunlizzx/BioSeq2Seq.git
+cd BioSeq2Seq
+```
+
+(2) Install BioSeq2Seq Environment
 Create the environment with the following command:
 
 ```shell
-conda env create -f environment.yml -n my_env
+conda env create -f environment.yml -n BioSeq2Seq
+# activate the environment
+conda activate BioSeq2Seq
+```
+
+(3) Download the Pretrained Model Weights
+
+Download the pretrained model file from the following link:
+
+👉 https://dreg.dnasequence.org/themes/dreg/assets/750%20file/BioSeq2Seq_model.zip
+
+Then, move into the `BioSeq2Seq_Toolkit/BioSeq2Seq/model` directory and unzip the file:
+
+```bash
+cd BioSeq2Seq_Toolkit/BioSeq2Seq/model
+# Move the downloaded zip file here, then unzip:
+unzip BioSeq2Seq_model.zip
+cd ../..
 ```
 
 Pre-trained model weights for different downstream tasks of BioSeq2Seq are available here: https://dreg.dnasequence.org/themes/dreg/assets/file/BioSeq2Seq_model.zip.
