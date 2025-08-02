@@ -10,18 +10,24 @@ This package provides an implementation for training, testing, and evaluation of
 ## 🚀 About
 **BioSeq2Seq** is a smart framework that allows users to provide, but not limited to, RO-seq and DNA sequences to predict a variety of transcriptional regulatory signals. Currently, BioSeq2Seq integrates four downstream analysis models for transcriptional regulation: histone modification prediction, functional element annotation, gene expression prediction, and transcriptional regulatory factor binding site (TFBS) prediction.
 
-## 🔧 Setup BioSeq2Seq
-Requirements:
+## 🔧 Install BioSeq2Seq
+
+(1) Requirements
 *   einops(0.4.1)
 *   h5py(2.8.0)
 *   pyBigWig(0.3.22)
 *   pysam(0.19.0)
 *   numpy(1.15.0)
 *   tensorflow(2.4.0)
+*   Ubuntu or Centos
 
 See `environment.yml`.
 
-(1) Download BioSeq2Seq
+(2) Supported OS
+
+Only Linux is supported at this time.
+
+(3) Download BioSeq2Seq
 
 Clone the BioSeq2Seq repository from GitHub
 
@@ -31,7 +37,7 @@ git clone https://github.com/zhichunlizzx/BioSeq2Seq.git
 cd BioSeq2Seq
 ```
 
-(2) Install BioSeq2Seq Environment
+(4) Install BioSeq2Seq Environment
 Create the environment with the following command:
 
 ```shell
@@ -41,24 +47,37 @@ conda env create -f environment.yml -n BioSeq2Seq
 conda activate BioSeq2Seq
 ```
 
-(3) Download the Pretrained Model Weights
+(5) Download the Pretrained Model Weights
 
 Download the pretrained model file from the following link:
 
-👉 https://dreg.dnasequence.org/themes/dreg/assets/750%20file/BioSeq2Seq_model.zip
+👉 https://dreg.dnasequence.org/themes/dreg/assets/file/BioSeq2Seq_model.zip.
 
 Then, move into the `BioSeq2Seq_Toolkit/BioSeq2Seq/model` directory and unzip the file:
 
 ```bash
 cd BioSeq2Seq_Toolkit/BioSeq2Seq/model
 # download the pretrained model
-wget https://dreg.dnasequence.org/themes/dreg/assets/750%20file/BioSeq2Seq_model.zip
+wget https://dreg.dnasequence.org/themes/dreg/assets/file/BioSeq2Seq_model.zip
 # decompressing
 unzip BioSeq2Seq_model.zip
 cd ../..
 ```
 
-## 🖥️ How to Use the BioSeq2Seq Toolkit for Prediction
+## 📝 Data preparation
+
+BioSeq2Seq requires double-stranded bigWig files and corresponding DNA sequences as input. The bigWig files must meet the following three criteria:
+
+1. Reads must be mapped in point mode, using either the 5′ end (e.g., GRO-seq) or the 3′ end (e.g., PRO-seq). Do not represent reads as continuous regions starting from these ends. This mapping style differs from tools such as Tfit.
+
+2. Each strand should contain only positive or only negative values, with no mixing of signs within a strand.
+
+3. No normalization
+
+As for how to generate bigWig files from fastq data, please refer to https://github.com/Danko-Lab/proseq2.0/.
+
+
+## 🖥️ Prediction
 
 BioSeq2Seq is an end-to-end transcriptional regulation analysis model that requires **RO-seq** data (including PRO-seq, GRO-seq, and ChRO-seq) from both the forward and reverse strands, along with the corresponding **reference genome**, to accurately predict various transcriptional regulatory activities. To use BioSeq2Seq, TensorFlow 2.4.0 or a later version must be properly installed. During operation, BioSeq2Seq will automatically utilize GPU acceleration to enhance computational performance.
 
@@ -89,9 +108,9 @@ BioSeq2Seq outputs predicted signals in bigWig format. For functional element pr
 Pre-trained model weights for different downstream tasks of BioSeq2Seq are available here: https://dreg.dnasequence.org/themes/dreg/assets/file/BioSeq2Seq_model.zip.
 
 
-## 📝Train and Predict with a New Model
+## 📝Train a new model
 
-The training of the model requires the following types of data:
+The training of a new model requires the following types of data:
 *   Double-stranded RO-seq data ("xx_plus.bw, xx_minus.bw", optional — at least one of RO-seq or reference genome data must be provided)
 *   Reference genome data ("hg19.fa", optional — at least one of reference genome or RO-seq data must be provided)
 *   Target ground truth (such as histone modification ChIP-seq, RNA-seq, or other omics data)
