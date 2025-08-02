@@ -69,6 +69,7 @@ cd ../..
 BioSeq2Seq requires double-stranded bigWig files and corresponding DNA sequences as input. 
 
 (1) RO-seq bigWig file
+
 The bigWig files must meet the following three criteria:
 
 1. Reads must be mapped in point mode, using either the 5′ end (e.g., GRO-seq) or the 3′ end (e.g., PRO-seq). Do not represent reads as continuous regions starting from these ends. This mapping style differs from tools such as Tfit.
