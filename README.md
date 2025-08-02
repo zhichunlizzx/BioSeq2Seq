@@ -10,7 +10,7 @@ This package provides an implementation for training, testing, and evaluation of
 ## 🚀 About
 **BioSeq2Seq** is a smart framework that allows users to provide, but not limited to, RO-seq and DNA sequences to predict a variety of transcriptional regulatory signals. Currently, BioSeq2Seq integrates four downstream analysis models for transcriptional regulation: histone modification prediction, functional element annotation, gene expression prediction, and transcriptional regulatory factor binding site (TFBS) prediction.
 
-## 🔧 Setup
+## 🔧 Setup BioSeq2Seq
 Requirements:
 *   einops(0.4.1)
 *   h5py(2.8.0)
@@ -26,6 +26,7 @@ See `environment.yml`.
 Clone the BioSeq2Seq repository from GitHub
 
 ```shell
+# download BioSeq2Seq
 git clone https://github.com/zhichunlizzx/BioSeq2Seq.git
 cd BioSeq2Seq
 ```
@@ -34,6 +35,7 @@ cd BioSeq2Seq
 Create the environment with the following command:
 
 ```shell
+# create BioSeq2Seq environment
 conda env create -f environment.yml -n BioSeq2Seq
 # activate the environment
 conda activate BioSeq2Seq
@@ -49,14 +51,49 @@ Then, move into the `BioSeq2Seq_Toolkit/BioSeq2Seq/model` directory and unzip th
 
 ```bash
 cd BioSeq2Seq_Toolkit/BioSeq2Seq/model
-# Move the downloaded zip file here, then unzip:
+# download the pretrained model
+wget https://dreg.dnasequence.org/themes/dreg/assets/750%20file/BioSeq2Seq_model.zip
+# decompressing
 unzip BioSeq2Seq_model.zip
 cd ../..
 ```
 
+## 🖥️ How to Use the BioSeq2Seq Toolkit for Prediction
+
+BioSeq2Seq is an end-to-end transcriptional regulation analysis model that requires **RO-seq** data (including PRO-seq, GRO-seq, and ChRO-seq) from both the forward and reverse strands, along with the corresponding **reference genome**, to accurately predict various transcriptional regulatory activities. To use BioSeq2Seq, TensorFlow 2.4.0 or a later version must be properly installed. During operation, BioSeq2Seq will automatically utilize GPU acceleration to enhance computational performance.
+
+使用BioSeq2Seq需要输入：
+
+```shell
+bash --plus plus_strand.bw --minus minus_strand.bw  --ref ref.fa  -o outdir --type task_type --op out_prefix
+
+Parameter explanations:
+    --plus: plus strand bigWig file
+    --minus: minus strand bigWig file
+    --ref: reference genome FASTA
+    --type: task type (HistoneModification, FunctionalElement, GeneExpression, TFBS)
+    -o: output directory
+    --op: output filename prefix (optional)
+```
+
+
+
+
+
+
+
+
+
+
 Pre-trained model weights for different downstream tasks of BioSeq2Seq are available here: https://dreg.dnasequence.org/themes/dreg/assets/file/BioSeq2Seq_model.zip.
 
+
+
+
+
+
 ## 📝How to train and predict
+
 The training of the model requires the following types of data:
 *   Double-stranded RO-seq data ("xx_plus.bw, xx_minus.bw", optional — at least one of RO-seq or reference genome data must be provided)
 *   Reference genome data ("hg19.fa", optional — at least one of reference genome or RO-seq data must be provided)
