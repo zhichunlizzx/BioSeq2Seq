@@ -58,11 +58,11 @@ class HMModel(tf.keras.Model):
         pooling_module(pooling_type, pool_size=2),
     ], name='stem')
 
-    stem_roseq = Sequential([
+    stem_seq = Sequential([
         tf.keras.layers.Conv1D(filters=channels // 2, kernel_size=15, padding="same"),
-        Residual(conv_block(channels // 2, 1, name='pointwise_conv_block_roseq')),
+        Residual(conv_block(channels // 2, 1, name='pointwise_conv_block_seq')),
         pooling_module(pooling_type, pool_size=2),
-    ], name='stem_roseq')
+    ], name='stem_seq')
 
 
     filter_list = exponential_linspace_int(start=channels // 2, end=channels,
@@ -76,17 +76,17 @@ class HMModel(tf.keras.Model):
                    name=f'conv_tower_block_{i}')
         for i, num_filters in enumerate(filter_list)], name='conv_tower')
 
-    conv_tower_roseq = Sequential([
+    conv_tower_seq = Sequential([
         Sequential([
             conv_block(num_filters, 5),
-            Residual(conv_block(num_filters, 1, name='pointwise_conv_block_roseq')),
+            Residual(conv_block(num_filters, 1, name='pointwise_conv_block_seq')),
             pooling_module(pooling_type, pool_size=2),
             ],
-                   name=f'conv_tower_block_minus_{i}')
-        for i, num_filters in enumerate(filter_list)], name='conv_tower_roseq')
+                   name=f'conv_tower_seq_{i}')
+        for i, num_filters in enumerate(filter_list)], name='conv_tower_seq')
 
     self.concat_x_proseq = Sequential([tf.keras.layers.Dense(channels)], name='concat_x_proseq')
-
+    
     # Transformer.
     def transformer_mlp():
       return Sequential([
@@ -106,10 +106,10 @@ class HMModel(tf.keras.Model):
 
                 attention_model.MultiheadAttention(**whole_attention_kwargs,
                                                     name=f'attention_{i}'),
-
                 tf.keras.layers.Dropout(dropout_rate)], name='mha')),
             Residual(transformer_mlp())], name=f'transformer_block_{i}')
         for i in range(num_transformer_layers)], name='transformer')
+    
     
     crop_final = TargetLengthCrop1D(target_length, name='target_input')
 
@@ -118,57 +118,61 @@ class HMModel(tf.keras.Model):
         tf.keras.layers.Dropout(dropout_rate / 8),
         GELU()], name='final_pointwise')
     
+
+    # self._initializer = tf.keras.initializers.VarianceScaling(scale=2.0)
+    # self.var = tf.Variable(self._initializer([1], dtype=tf.float32))
+    
     self._conv = Sequential([stem,
                             conv_tower],
-                            name = 'conv_dna')
+                            name = 'conv_block_conv')
     
-    self._conv_roseq = Sequential([stem_roseq,
-                            conv_tower_roseq],
-                            name = 'conv_roseq')
-
+    self._conv_seq = Sequential([stem_seq,
+                            conv_tower_seq],
+                            name = 'conv_block_seq')
 
     self._trunk = Sequential([transformer,
                             crop_final,
-                            final_pointwise],
-                             name='trunk')
+                            ],
+                             name='trunk_others')
     
-
     trunk_name_scope.__exit__(None, None, None)
 
-    with tf.name_scope('heads'):  
-      self._head = Sequential([tf.keras.layers.Dense(units=output_channels), SoftPlus()], name=f'head')
-         
+    with tf.name_scope('heads'):
+      self._heads = Sequential([final_pointwise,
+                                tf.keras.layers.Dense(units=output_channels), SoftPlus()
+                                ], name=f'head')
 
   @property
-  def conv_dna(self):
+  def conv(self):
     return self._conv
 
   @property
-  def conv_roseq(self):
-    return self._conv_roseq
+  def conv_seq(self):
+    return self._conv_seq
 
   @property
   def trunk(self):
     return self._trunk
 
   @property
-  def head(self):
-    return self._head
+  def heads(self):
+    return self._heads
+
 
   def __call__(self, inputs, is_training) -> Dict[str, tf.Tensor]:
+    input_dna_encoding = inputs[0]
+    input_seq_feature = inputs[1]
 
-    inputs_dna = inputs[0]
-    inputs_roseq = inputs[1]
+    outputs = self.conv(input_dna_encoding, training=is_training)
 
-    outputs_dna = self.conv_dna(inputs_dna, training=is_training)
-    out_roseq = self._conv_roseq(inputs_roseq, training=is_training)
+    out_seq = self.conv_seq(input_seq_feature, training=is_training)
 
-    outputs = tf.concat([outputs_dna, out_roseq], axis=-1)
+    outputs = tf.concat([outputs, out_seq], axis=-1)
 
     outputs = self.concat_x_proseq(outputs, training=is_training)
-    
+
     outputs = self.trunk(outputs, training=is_training)
 
-    outputs = self.head(outputs, training=is_training)
+    outputs = self.heads(outputs, training=is_training)
 
     return outputs

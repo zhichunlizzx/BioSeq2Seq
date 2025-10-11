@@ -123,30 +123,13 @@ class GEModel(tf.keras.Model):
             Residual(transformer_mlp())], name=f'transformer_block_{i}')
         for i in range(num_transformer_layers)], name='transformer')
     
-    transformer_promoter = Sequential([
-        Sequential([
-            Residual(Sequential([
-                tf.keras.layers.LayerNormalization(axis=-1,
-                              scale=True, center=True,
-                              gamma_initializer=tf.keras.initializers.Ones()),
-
-                attention_model.MultiheadAttention(**whole_attention_kwargs,
-                                                    name=f'attention_{i}'),
-                tf.keras.layers.Dropout(dropout_rate)], name='mha')),
-            Residual(transformer_mlp())], name=f'transformer_block_{i}')
-        for i in range(num_transformer_layers)], name='transformer')
-    
     crop_final = TargetLengthCrop1D(target_length, name='target_input')
 
-    final_pointwise_promoters = Sequential([
+    final_pointwise = Sequential([
         conv_block(channels * 2, 1),
         tf.keras.layers.Dropout(dropout_rate / 8),
         GELU()], name='final_pointwise')
     
-    final_pointwise_others = Sequential([
-        conv_block(channels * 2, 1),
-        tf.keras.layers.Dropout(dropout_rate / 8),
-        GELU()], name='final_pointwise')
 
     # self._initializer = tf.keras.initializers.VarianceScaling(scale=2.0)
     # self.var = tf.Variable(self._initializer([1], dtype=tf.float32))
@@ -167,11 +150,10 @@ class GEModel(tf.keras.Model):
     trunk_name_scope.__exit__(None, None, None)
 
     with tf.name_scope('heads'):
-      self._heads = Sequential([final_pointwise_promoters,
+      self._heads = Sequential([final_pointwise,
                                 tf.keras.layers.Dense(units=output_channels), SoftPlus()
-                                ], name=f'head_promoter')
+                                ], name=f'head')
 
-    
   @property
   def conv(self):
     return self._conv

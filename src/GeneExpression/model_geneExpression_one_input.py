@@ -108,7 +108,7 @@ class GEModel(tf.keras.Model):
     
     crop_final = TargetLengthCrop1D(target_length, name='target_input')
 
-    final_pointwise_promoters = Sequential([
+    final_pointwise = Sequential([
         conv_block(channels * 2, 1),
         tf.keras.layers.Dropout(dropout_rate / 8),
         GELU()], name='final_pointwise')
@@ -128,9 +128,9 @@ class GEModel(tf.keras.Model):
     trunk_name_scope.__exit__(None, None, None)
 
     with tf.name_scope('heads'):
-      self._heads = Sequential([final_pointwise_promoters,
+      self._heads = Sequential([final_pointwise,
                                 tf.keras.layers.Dense(units=output_channels), SoftPlus()
-                                ], name=f'head_promoter')
+                                ], name=f'head')
 
     
   

@@ -201,6 +201,7 @@ class FEModel(tf.keras.Model):
     return self._heads_inact
 
   def __call__(self, inputs, is_training) -> Dict[str, tf.Tensor]:
+    inputs[1][:, :, 0] = -1 * inputs[1][:, :, 0]
     input_dna_encoding = inputs[0]
     input_seq_feature = inputs[1]
 

@@ -193,14 +193,15 @@ def get_predict_dna(samples, reference_genome_file, sequencing_data_file, extend
         for sample in samples:
             sample = [[sample[0], sample[1], sample[2]]]
             dna_encoding = np.squeeze(get_dna_seq_onehot_encoding(sample, reference_genome_file, extend=extend), 0)
-            a = yield (dna_encoding)
+            dummy = np.zeros(1, dtype=np.float32)  # 伪变量
+            a = yield (dna_encoding, dummy)
 
     
-    sample_types = (tf.float32)
+    sample_types = (tf.float32, tf.float32)
     # length of the sample region
     seq_length = int(samples[0][2]) - int(samples[0][1])
     # (DNA)
-    sample_shapes = ((seq_length + 2 * extend, 4))
+    sample_shapes = ((seq_length + 2 * extend, 4), (1,))
     return sample_gen, sample_types, sample_shapes
 
 
@@ -211,15 +212,16 @@ def get_predict_seq(samples, reference_genome_file, sequencing_data_file, extend
         for sample in samples:
             sample = [[sample[0], sample[1], sample[2]]]
             seq_feature = np.squeeze(get_input_seq_feature(sample, sequencing_data_file[0][0], extend=extend, nan=nan), 0)
-            a = yield (seq_feature)
+            dummy = np.zeros(1, dtype=np.float32)  # 伪变量
+            a = yield (seq_feature, dummy)
 
-    sample_types = (tf.float32)
+    sample_types = (tf.float32, tf.float32)
     # dimension of seq feature
     dim_seq = 2 ** (len(sequencing_data_file[0][0])) - 1
     # length of the sample region
     seq_length = int(samples[0][2]) - int(samples[0][1])
     # (seq)
-    sample_shapes = ((seq_length + 2 * extend, dim_seq))
+    sample_shapes = ((seq_length + 2 * extend, dim_seq), (1,))
     return sample_gen, sample_types, sample_shapes
 
 
@@ -245,10 +247,10 @@ def predict_data_func(dna_encoding, seq_feature):
     return dna_encoding, seq_feature
 
 
-def predict_data_func_one(feature):
+def predict_data_func_one(feature, dummy):
     """convert to tensor"""
     feature = tf.convert_to_tensor(feature, tf.float32)
-    return feature
+    return feature, dummy
 
 
 def get_dataset(samples, reference_genome_file, sequencing_data_file, target_sequencing_file=None, window_width=128, extend=40960, data_type='dna+seq', nan=None):

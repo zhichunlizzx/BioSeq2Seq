@@ -69,8 +69,6 @@ class HMModel(tf.keras.Model):
                    name=f'conv_tower_block_{i}')
         for i, num_filters in enumerate(filter_list)], name='conv_tower')
 
-    self.concat_x_proseq = Sequential([tf.keras.layers.Dense(channels)], name='concat_x_proseq')
-
     # Transformer.
     def transformer_mlp():
       return Sequential([
@@ -90,11 +88,10 @@ class HMModel(tf.keras.Model):
 
                 attention_model.MultiheadAttention(**whole_attention_kwargs,
                                                     name=f'attention_{i}'),
-
                 tf.keras.layers.Dropout(dropout_rate)], name='mha')),
             Residual(transformer_mlp())], name=f'transformer_block_{i}')
         for i in range(num_transformer_layers)], name='transformer')
-    
+
     crop_final = TargetLengthCrop1D(target_length, name='target_input')
 
     final_pointwise = Sequential([
@@ -104,43 +101,44 @@ class HMModel(tf.keras.Model):
     
     self._conv = Sequential([stem,
                             conv_tower],
-                            name = 'conv_dna')
-    
+                            name = 'conv_block_conv')
+
     self._trunk = Sequential([transformer,
                             crop_final,
-                            final_pointwise],
+                            ],
                              name='trunk')
-    
+
+
 
     trunk_name_scope.__exit__(None, None, None)
 
     with tf.name_scope('heads'):  
-      self._head = Sequential([tf.keras.layers.Dense(units=output_channels), SoftPlus()], name=f'head')
-         
+      self._heads = Sequential(
+            [final_pointwise, tf.keras.layers.Dense(units=output_channels), SoftPlus()], name=f'head')
+
+      
 
   @property
   def conv(self):
     return self._conv
-
 
   @property
   def trunk(self):
     return self._trunk
 
   @property
-  def head(self):
-    return self._head
+  def heads(self):
+    return self._heads
 
-  def __call__(self, inputs, is_training) -> Dict[str, tf.Tensor]:
-
+  def __call__(self, inputs, is_training: bool) -> Dict[str, tf.Tensor]:
     inputs = inputs[0]
 
     outputs = self.conv(inputs, training=is_training)
 
-    outputs = self.concat_x_proseq(outputs, training=is_training)
-    
     outputs = self.trunk(outputs, training=is_training)
 
-    outputs = self.head(outputs, training=is_training)
+    outputs = self.heads(outputs, training=is_training)
 
+    # outputs = tf.sigmoid(outputs)
+    
     return outputs
