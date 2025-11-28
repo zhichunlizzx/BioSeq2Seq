@@ -16,8 +16,7 @@ This package provides an implementation for training, testing, and evaluation of
 |:-|:-|:-|:-|
 |1|Histone modification|H3K4me1, H3K122ac, H3K4me2, H3K4me3, H3K27ac, H3K27me3, H3K36me3, H3K9ac, H3K9me3, H4K20me1|ChIP-seq|
 |2|Functional element|Promoter, Insulator, Poly(A), Gene Body|annotation|
-|3|Gene expression|nucleus_longPolyA, cell_longNonPolyA, nucleoplasm_total, chromatin_total, nucleolus_total, cell_longPolyA, nucleus_longNonPolyA, cytosol_longNonPolyA, cell_total, cytosol_longPolyA
-|RNA-seq|
+|3|Gene expression|nucleus_longPolyA, cell_longNonPolyA, nucleoplasm_total, chromatin_total, nucleolus_total, cell_longPolyA, nucleus_longNonPolyA, cytosol_longNonPolyA, cell_total, cytosol_longPolyA|RNA-seq|
 |4|TFBS|TCF7, NRF1, JUNB, NR2F6, RUNX1, ZBTB11, ZBED1, MBD2, CREM, ETV6, SMAD5, SP1, NR2F1, RFX1, IKZF1, TCF7L2, ZKSCAN1, ZBTB33, FOXA1, SREBF1, ZZZ3, CEBPZ, ELF1, ESRRA, NKRF, FOXK2, ZBTB40, REST, PKNOX1, HES1, NFXL1, ZNF47, NEUROD1, E2F8, POU5F1, ZNF282, E4F1, ARNT, ASH1L, ZSCAN29, NFATC3, SMAD1, ATF3, NFIC, SOX6, ATF2, ATF7, TCF12, NR2C1, LEF1, ZNF24, GATAD2B, MNT, ELF4, SKIL, FOXM1, ZNF592, MYBL2, EGR1, BHLHE40, BACH1, JUND, RFX5, MAFF, MYC, ZNF274, CEBPB, MXI1, TBP, CTCF, USF2, ATF1, MAZ, MAFK, MAX, ZBTB7A, ETS1, FOSL1, SPI1, SIX5, MEF2A, TEAD4, CREB1, STAT5A, NR2F2, CUX1, ZNF384, ELK1, JUN, SETDB1, |TFBS peak|
 
 
