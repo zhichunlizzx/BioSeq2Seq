@@ -266,7 +266,7 @@ def _reduced_shape(shape, axis):
     return tf.TensorShape([d for i, d in enumerate(shape) if i not in axis])
 
 
-# This method is adapted from Enformer by Kyle Taylor(originally Apache License 2.0)
+# This method is adapted from Enformer by Kyle Taylor(originally Apache 2.0)
 class CorrelationStats(tf.keras.metrics.Metric):
     """Contains shared code for PearsonR and R2."""
 
